@@ -2,23 +2,33 @@
 #
 # Install script for bcd
 
+if [[ -f "$HOME/.bash_profile" ]]; then
+    profile_file="$HOME/.bash_profile"
+else
+    profile_file="$HOME/.profile"
+fi
+
 # check if the current user's bin is in path 
 echo "Checking path..."
 echo "$PATH" | tr ':' '\n' | grep "^$HOME/bin$" >/dev/null 2>&1
 if [[ $? -ne 0 ]]; then
-    echo -e "~/bin is not in your path. Please add the following line to your .profile then re-run this script:\n export \$PATH=\$PATH:~/bin" 1>&2
-    echo -e "Then run: source ~/.profile" 1>&2
-    exit 1
+    echo "~/bin not found in path. Appending path to $profile_file..." 
+    cat <<-PROFILE >> $profile_file
+	# BCD install.sh #
+	export PATH="\$PATH:$HOME/bin"
+
+PROFILE
 fi
 
 # copy file to current user's bin
-echo "Copying file..."
-mkdir -p $HOME/bin
-cp back_directory.pl $HOME/bin
+echo "Copying file to ~/bin..."
+mkdir -p "$HOME/bin"
+cp back_directory.pl "$HOME/bin"
 
-# write function and alias to bashrc
-echo "Writing to .bashrc..."
-cat <<'BASHRC' >> $HOME/.bashrc
+# write function and alias to profile_file
+echo "Writing function and alias to $profile_file"
+cat <<'PROFILE' >> "$profile_file"
+
 bcd() {
 cmd=`back_directory.pl $1`;
 if [[ $? -eq 0 ]]; then
@@ -30,6 +40,8 @@ fi
 }
 
 alias bd='bcd'
-BASHRC
+# END BCD install.sh #
+PROFILE
 
+source "$profile_file"
 echo -e "\nDone" 

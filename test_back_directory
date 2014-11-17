@@ -16,7 +16,7 @@ endColor='\e[0m'
 test_dir="/users/tor/arqt/qko/joshua/scripts/tests"
 #echo "*** back_directory.pl test suite ****"
 #echo -e "Testing directory is $test_dir\n"
-printf "%-45s  Status\n\n" "Test name"
+printf "${yellow}%-45s  Status\n\n${endColor}" "Test name"
 
 # DRIVER #
 num_tests=0
@@ -24,7 +24,7 @@ num_success=0
 num_failure=0
 tester(){
     ((num_tests++))
-    cmd=$(/users/tor/arqt/qko/joshua/scripts/back_directory.pl $input $test_dir)
+    cmd=$(back_directory.pl $input $test_dir)
     if [[ $cmd != $expect ]];
     then 
         printf "%-45s ${yellow}[ERROR]${endColor}\n" "${name:-"Test"}"
@@ -115,4 +115,4 @@ if [[ $num_success != $num_tests ]]; then
 else
     my_color=${green}
 fi
-echo -e "\n${my_color}${num_success}/${num_tests}${endColor} tests successful"
+printf "\n${my_color}${num_success}/${num_tests}${endColor} tests successful\n"
