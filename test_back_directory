@@ -1,0 +1,112 @@
+#!/bin/bash
+#
+# Test suite for back_directory.pl
+#
+# Joshua Doncaster-Marsiglio
+# Nov 2014
+#
+
+# COLORS #
+green='\e[0;32m'
+red='\e[0;31m'
+yellow='\e[0;33m'
+endColor='\e[0m'
+
+# SETUP #
+test_dir="/users/tor/arqt/qko/joshua/scripts/tests"
+echo "*** back_directory.pl test suite ****"
+echo -e "Testing directory is $test_dir\n"
+printf "%-45s  Status\n\n" "Test name"
+
+# DRIVER #
+num_tests=0
+num_success=0
+num_failure=0
+tester(){
+    ((num_tests++))
+    cmd=$(/users/tor/arqt/qko/joshua/scripts/back_directory.pl $input $test_dir)
+    if [[ $cmd != $expect ]];
+    then 
+        printf "%-45s ${yellow}[ERROR]${endColor}\n" "${name:-"Test"}"
+        printf " ${yellow}%-15s${endColor} %-20s\n"  "Input:" "$input" "Expected:" "$expect" "Actual:" "$cmd"
+        ((num_failure++))
+    else
+        printf "%-45s ${green}[successful]${endColor}\n" "${name:-"Test"}"
+        ((num_success++))
+    fi
+}
+
+#### TESTS ####
+
+# TEST 1 #
+input="tor/"
+expect="cd /users/tor/"
+name="simple test"
+tester 
+
+# TEST 2 #
+input="tests/"
+expect=""
+name="forward slash current directory"
+tester
+
+# TEST 3 #
+input="ts"
+expect="cd /users/tor/arqt/qko/joshua/scripts/"
+name="ambiguous pattern"
+tester
+
+# TEST 4 #
+input="t[o]"
+expect="cd /users/tor/"
+name="regex pattern"
+tester
+
+# TEST 5 #
+input="/[a-z]{4}/"
+expect="cd /users/tor/arqt/"
+name="more complicated regex"
+tester
+
+# TEST 6 #
+input="/users/tor/arqt/"
+expect="cd /users/tor/arqt/"
+name="full path 1"
+tester
+
+# TEST 7 #
+input="/users/tor/arqt/qko/joshua/scripts/tests"
+expect=""
+name="full path 2"
+tester
+
+# TEST 8 #
+input="tests"
+expect=""
+name="current directory no forward slash"
+tester
+
+# TEST 9 #
+input="^/"
+expect="cd /"
+name="root regex"
+tester
+
+# TEST 10 #
+input='/arqt/q[ko]*/'
+expect="cd /users/tor/arqt/qko/"
+name="embedded path"
+tester
+
+# TEST 11 #
+input='/'
+expect='cd /users/tor/arqt/qko/joshua/scripts/'
+name="just one slash"
+tester
+
+if [[ $num_success != $num_tests ]]; then
+    my_color=${red}
+else
+    my_color=${green}
+fi
+echo -e "\n${my_color}${num_success}/${num_tests}${endColor} tests successful"
