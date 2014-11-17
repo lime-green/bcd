@@ -14,6 +14,7 @@ No sudo privileges needed.
 
 ###Usage
 *Note:* The install script creates an alias `bd` for `bcd` so either command will work.
+General usage is `bcd pattern`. The pattern is treated as a regex pattern, so use single quotes if it contains bash special characters.
 
 ```bash
 user@host:/home/josh/projects/stuff/more_stuff$ bcd ts
