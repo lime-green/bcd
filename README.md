@@ -1,6 +1,7 @@
 #bcd
 
-A linux tool written in perl to go back to a directory matching a pattern. You no longer have to cd ../../..
+A linux tool written in perl to go back to a directory matching a pattern.  
+No more typing `cd ../../..`
 
 `bcd` will change to the directory matching the input pattern. It prioritises directories that are deeper in the tree (excluding the current directory) if there is more than one match.
 
@@ -8,8 +9,7 @@ A linux tool written in perl to go back to a directory matching a pattern. You n
 
 ```bash
 git clone https://github.com/lime-green/bcd.git
-cd bcd && ./install.sh
-source ~/.bashrc
+cd bcd && source ./install.sh
 ```
 
 No sudo privileges needed. 

@@ -14,9 +14,10 @@ echo "$PATH" | tr ':' '\n' | grep "^$HOME/bin$" >/dev/null 2>&1
 if [[ $? -ne 0 ]]; then
     echo "~/bin not found in path. Appending path to $profile_file..." 
     cat <<-PROFILE >> $profile_file
-	# BCD install.sh #
-	export PATH="\$PATH:$HOME/bin"
 
+	# BCD install.sh (adding path) #
+	export PATH="\$PATH:$HOME/bin"
+	# END BCD install.sh #
 PROFILE
 fi
 
@@ -29,6 +30,7 @@ cp back_directory.pl "$HOME/bin"
 echo "Writing function and alias to $profile_file"
 cat <<'PROFILE' >> "$profile_file"
 
+# BCD install.sh (adding function and alias)
 bcd() {
 cmd=`back_directory.pl $1`;
 if [[ $? -eq 0 ]]; then
