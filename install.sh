@@ -6,7 +6,7 @@
 echo "Checking path..."
 echo "$PATH" | tr ':' '\n' | grep "^$HOME/bin$" >/dev/null 2>&1
 if [[ $? -ne 0 ]]; then
-    echo -e "~/bin is not in your path. Please add the following line to your .profile:\n export \$PATH=\$PATH:~/bin" 1>&2
+    echo -e "~/bin is not in your path. Please add the following line to your .profile then re-run this script:\n export \$PATH=\$PATH:~/bin" 1>&2
     echo -e "Then run: source ~/.profile" 1>&2
     exit 1
 fi
