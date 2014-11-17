@@ -14,8 +14,8 @@ endColor='\e[0m'
 
 # SETUP #
 test_dir="/users/tor/arqt/qko/joshua/scripts/tests"
-echo "*** back_directory.pl test suite ****"
-echo -e "Testing directory is $test_dir\n"
+#echo "*** back_directory.pl test suite ****"
+#echo -e "Testing directory is $test_dir\n"
 printf "%-45s  Status\n\n" "Test name"
 
 # DRIVER #
