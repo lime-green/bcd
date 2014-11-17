@@ -38,13 +38,13 @@ my $input = $ARGV[0];
 my ($parent_cwd) = $cwd =~ /(.*\/).*$/; #removes last directory (gets parent directory full path)
 my $match;
 
-# input pattern has a trailing slash and match found
-if ($input =~ /\/$/ && (($match) = $parent_cwd =~ /(.*$input)/))
+# match found and input pattern has a trailing slash (no need to find corresponding slash)
+if ((($match) = $parent_cwd =~ /(.*$input)/) && $match =~ /\/$/)
 {
     print 'cd ', $match;
     exit 0;
 }
-# input pattern has no trailing slash and match found
+# input pattern has no trailing slash, so looks for corresponding slash
 elsif (($match) = $parent_cwd =~ /(.*$input.*?\/)/)
 {
     print 'cd ', $match;

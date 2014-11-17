@@ -104,6 +104,12 @@ expect='cd /users/tor/arqt/qko/joshua/scripts/'
 name="just one slash"
 tester
 
+# TEST 12 #
+input='ua.'
+expect='cd /users/tor/arqt/qko/joshua/'
+name="regex period match slash"
+tester
+
 if [[ $num_success != $num_tests ]]; then
     my_color=${red}
 else
