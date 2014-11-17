@@ -8,7 +8,7 @@ A linux tool written in perl to go back to a directory matching a pattern. You n
 
 ```bash
 git clone https://github.com/lime-green/bcd.git
-./install.sh
+cd bcd && ./install.sh
 source ~/.bashrc
 ```
 
