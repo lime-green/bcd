@@ -24,7 +24,7 @@ num_success=0
 num_failure=0
 tester(){
     ((num_tests++))
-    cmd=$(back_directory.pl $input $test_dir)
+    cmd="$(./back_directory.pl $input $test_dir)"
     if [[ $cmd != $expect ]];
     then 
         printf "%-45s ${yellow}[ERROR]${endColor}\n" "${name:-"Test"}"
