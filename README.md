@@ -23,3 +23,6 @@ user@host:/home/josh/projects/stuff/more_stuff$ bcd ts
 user@host:/home/josh/projects$ bcd 'h[a-z]{3}'
 user@host:/home$ 
 ```
+
+###Inspiration
+I was fed up with using `cd ..` repeatedly and I thought there must be a better way. To my surprise, a quick google search didn't show up any results. After writing the code for this project, I did some more digging and found @vigneshwaranr had a project called `bd`. I thought I should share my project anyway because it's more flexible with the pattern matching and will accept any regular expression rather than just looking for the beginning characters. As this is my first public project, I welcome any and all feedback.
