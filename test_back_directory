@@ -16,6 +16,8 @@ endColor='\e[0m'
 test_dir="/users/tor/arqt/qko/joshua/scripts/tests"
 #echo "*** back_directory.pl test suite ****"
 #echo -e "Testing directory is $test_dir\n"
+
+[[ -f "./back_directory.pl" ]] || { echo "Please run this in the same directory as back_directory.pl" 1>&2 && exit 1; }
 printf "${yellow}%-45s  Status\n\n${endColor}" "Test name"
 
 # DRIVER #
