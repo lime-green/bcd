@@ -1,7 +1,7 @@
 #bcd
 
 A linux tool written in perl to go back to a directory matching a pattern.  
-No more typing `cd ../../..`
+No more typing `cd ../../../../..` over, and over again.
 
 `bcd` will change to the directory matching the input pattern. It prioritises directories that are deeper in the tree (excluding the current directory) if there is more than one match.
 
