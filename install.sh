@@ -30,7 +30,7 @@ cp back_directory.pl "$HOME/bin"
 echo "Writing function and alias to $profile_file"
 cat <<'PROFILE' >> "$profile_file"
 
-# BCD install.sh (adding function and alias)
+# BCD install.sh (adding function and alias) #
 bcd() {
 cmd=`back_directory.pl $1`;
 if [[ $? -eq 0 ]]; then

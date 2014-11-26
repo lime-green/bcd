@@ -23,6 +23,11 @@ user@host:/home/josh/projects/stuff/more_stuff$ bcd ts
 user@host:/home/josh/projects$ bcd 'h[a-z]{3}'
 user@host:/home$ 
 ```
+### Compatibility
+So far I have confirmed this to be working on
+* Ubuntu 12.04
+* Ubuntu 14.04
+* OSX Mavericks v10.94
 
 ###Inspiration
 I was fed up with using `cd ..` repeatedly and I thought there must be a better way. To my surprise, a quick google search didn't show up any results. 
