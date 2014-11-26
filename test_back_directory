@@ -26,7 +26,7 @@ num_success=0
 num_failure=0
 tester(){
     ((num_tests++))
-    cmd="$(./back_directory.pl $input $test_dir)"
+    cmd=$(./back_directory.pl "$input" "$test_dir")
     if [[ $cmd != $expect ]];
     then 
         printf "%-45s ${yellow}[ERROR]${endColor}\n" "${name:-"Test"}"
@@ -110,6 +110,20 @@ tester
 input='ua.'
 expect='cd /users/tor/arqt/qko/joshua/'
 name="regex period match slash"
+tester
+
+# TEST 13 #
+test_dir='/'
+input='^/'
+expect=''
+name="root working dir"
+tester
+
+# TEST 14 #
+test_dir='/'
+input='.*'
+expect=''
+name="root working dir2"
 tester
 
 if [[ $num_success != $num_tests ]]; then

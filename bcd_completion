@@ -1,0 +1,7 @@
+_bcd()
+{
+    local cur=${COMP_WORDS[COMP_CWORD]}
+    COMPREPLY=($(compgen -W "$(back_directory.pl --complete $cur)" -- $cur))
+}
+complete -o nospace -F _bcd bcd
+complete -o nospace -F _bcd bd
