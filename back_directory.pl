@@ -21,23 +21,29 @@ use warnings;
 my $complete = 0;
 my @paths;
 
-if ($ARGV[0] eq '--complete')
+if (defined $ARGV[0] && $ARGV[0] eq '--complete')
 {
     $complete = 1;
     shift @ARGV;
 
+    if (defined $ARGV[0] && $ARGV[0] !~ /^[a-zA-Z0-9\/]*$/){
+        exit 1; # do not tab-complete when input is anything other than alpha-numeric and/or forward slash
+    }
+
     # zero arguments supplied to --complete
     # so show all matches where the previous character was a forward slash (this will match the beginning [first character] of all directories)
-    if ($#ARGV + 1 == 0){
+    if ($#ARGV + 1 <= 0 || $ARGV[0] eq ''){
         $ARGV[0] = "(?<=\/)[^\/]"; 
     }
 }
 
 my $arg_c = $#ARGV + 1;
-if ($arg_c != 1 && $arg_c != 2)
+if ((! $complete) && (($#ARGV != 0 && $#ARGV != 1) || 
+	(defined $ARGV[0] && $ARGV[0] eq '') ||
+	(defined $ARGV[1] && $ARGV[1] eq '')))
 {
     print STDERR "Invalid number of arguments\n";
-    exit 1;
+    exit -1;
 }
 
 my $cwd =  defined $ARGV[1] ? $ARGV[1] : `pwd;`;
@@ -68,10 +74,12 @@ if ($complete)
 {
     while((defined $parent_cwd) && (($match) = $parent_cwd =~ $input_noslash))
     {
-        push @paths, $match =~ $expand_complete;
+	my ($query) = $match =~ $expand_complete;
+    $query =~ s/(\s)/\\$1/g; # escape whitespace
+        push @paths, $query;
         ($parent_cwd) = $match =~ $parent_dir;
     }
-    print join " ", grep {$_ ne $input} @paths;
+    print join ":", grep {$_ ne $input} @paths;
     exit 0;
 }
 # match found and input pattern has a trailing slash (no need to find corresponding slash)
