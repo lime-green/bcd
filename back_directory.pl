@@ -39,8 +39,8 @@ if (defined $ARGV[0] && $ARGV[0] eq '--complete')
 
 my $arg_c = $#ARGV + 1;
 if ((! $complete) && (($#ARGV != 0 && $#ARGV != 1) || 
-	(defined $ARGV[0] && $ARGV[0] eq '') ||
-	(defined $ARGV[1] && $ARGV[1] eq '')))
+        (defined $ARGV[0] && $ARGV[0] eq '') ||
+        (defined $ARGV[1] && $ARGV[1] eq '')))
 {
     print STDERR "Invalid number of arguments\n";
     exit -1;
@@ -60,7 +60,7 @@ my $expand_complete;
 
 # The first pattern is used when input does not start with a forward slash
 # It captures the input pattern as well as anything until the next forward slash
-$expand_complete = qr/.*\/[^\/]*($input[^\/]*\/)$/ if $input !~ /^\//;
+$expand_complete = qr/.*\/[^\/]*?($input[^\/]*\/)$/ if $input !~ /^\//;
 $expand_complete = qr/.*($input[^\/]*\/)$/         if $input =~ /^\//;
 
 if ($cwd eq '/')
@@ -74,23 +74,26 @@ if ($complete)
 {
     while((defined $parent_cwd) && (($match) = $parent_cwd =~ $input_noslash))
     {
-	my ($query) = $match =~ $expand_complete;
-    $query =~ s/(\s)/\\$1/g; # escape whitespace
+        my ($query) = $match =~ $expand_complete;
+        $query =~ s/(\s)/\\$1/g; # escape whitespace
         push @paths, $query;
         ($parent_cwd) = $match =~ $parent_dir;
     }
+    map {s/^\///} @paths;
     print join ":", grep {$_ ne $input} @paths;
     exit 0;
 }
 # match found and input pattern has a trailing slash (no need to find corresponding slash)
 if ((($match) = $parent_cwd =~ $input_slash) && $match =~ $match_slash)
 {
+    $match =~ s/(\s)/\\$1/g; # escape whitespace
     print 'cd ', $match;
     exit 0;
 }
 # input pattern has no trailing slash, so looks for corresponding slash
 elsif (($match) = $parent_cwd =~ $input_noslash)
 {
+    $match =~ s/(\s)/\\$1/g; # escape whitespace
     print 'cd ', $match;
     exit 0;
 }

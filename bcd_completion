@@ -1,8 +1,37 @@
 _bcd()
 {
     local cur=${COMP_WORDS[COMP_CWORD]}
-    local IFS=':'
-    COMPREPLY=( $(compgen -W "$(back_directory.pl --complete $cur)" -- $cur) )
+    IFS=: read -a matches < <(back_directory.pl --complete "$cur")
+    for match in "${matches[@]}"; do
+        possible=$(IFS= compgen -W "$match" -- "${cur#/}")
+        [[ $possible ]] && COMPREPLY+=( "$possible" )
+    done
+
+    longest=""
+    for e in "${COMPREPLY[@]}"; do
+        if [[ "$longest" == "" ]]; then
+            longest="$e"
+        fi
+        while [[ ! "$e" =~ ^$longest ]]; do
+            longest=${longest%?}
+        done
+    done  
+
+    if [[ $longest != "$input" && "$cur" =~ ^/ ]]; then
+        for ((i=0; i<${#COMPREPLY[@]}; i++))
+        do
+            COMPREPLY[$i]="/${COMPREPLY[$i]}"
+        done
+    fi
 }
+_back_directory()
+{
+    local cur=${COMP_WORDS[COMP_CWORD]}
+    case "$cur" in
+        -*) COMPREPLY=( $( compgen -W "--complete" -- $cur ) ) ;;
+    esac
+}
+
+complete -F _back_directory back_directory.pl
+
 complete -o filenames -o nospace -F _bcd bcd
-complete -o nospace -F _bcd bd

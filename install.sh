@@ -32,14 +32,17 @@ cat <<'PROFILE' >> "$profile_file"
 
 # BCD install.sh (adding function and alias) #
 bcd() {
-    cmd="$(back_directory.pl "$1")"
-if [[ $? -eq 0 ]]; then
-    cmd="$(echo "$cmd" | sed "/cd/ { s/cd /cd '/; s/$/'/;}")"
-    eval "$cmd";
-else
-    echo "USAGE: ${FUNCNAME[0]} pattern" 1>&2
-    echo -e "\nSearches the current directory path from right to left and changes directory to the first matched pattern" 1>&2
-fi
+    if [[ $# -ne 1 ]]; then
+        echo "Invalid number of arguments" 1>&2
+    else
+        cmd="$(back_directory.pl "$1")"
+        if [[ $? -eq 0 ]]; then
+            eval "$cmd";
+        else
+            echo "USAGE: ${FUNCNAME[0]} pattern" 1>&2
+            echo -e "\nSearches the current directory path from right to left and changes directory to the first matched pattern" 1>&2
+        fi
+    fi
 }
 
 alias bd='bcd'

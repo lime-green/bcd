@@ -27,13 +27,13 @@ num_failure=0
 tester(){
     ((num_tests++))
     cmd=$(./back_directory.pl "$input" "$test_dir")
-    if [[ $cmd != $expect ]];
+    if [[ "$cmd" != "$expect" ]];
     then 
-        printf "%-45s ${yellow}[ERROR]${endColor}\n" "${name:-"Test"}"
+        printf "%-50s ${yellow}[ERROR]${endColor}\n" "${name:-"Test"}"
         printf " ${yellow}%-15s${endColor} %-20s\n"  "Input:" "$input" "Expected:" "$expect" "Actual:" "$cmd"
         ((num_failure++))
     else
-        printf "%-45s ${green}[successful]${endColor}\n" "${name:-"Test"}"
+        printf "%-50s ${green}[successful]${endColor}\n" "${name:-"Test"}"
         ((num_success++))
     fi
 }
@@ -124,6 +124,48 @@ test_dir='/'
 input='.*'
 expect=''
 name="root working dir2"
+tester
+
+# TEST 15 #
+test_dir='/w 1/w  2/w   3'
+input='w'
+expect='cd /w\ 1/w\ \ 2/'
+name="whitespace 1 (simple)"
+tester
+
+# TEST 16 #
+test_dir='/white ts/more scripts/more scripts2/project'
+input='ts/m'
+expect='cd /white\ ts/more\ scripts/more\ scripts2/'
+name="whitespace 2 (ambiguous pattern)"
+tester
+
+# TEST 17 #
+test_dir='/whitespace directories/are  thebest/are they not/ yes'
+input='  thebest'
+expect='cd /whitespace\ directories/are\ \ thebest/'
+name="whitespace 3 (whitespace in input and directory)"
+tester
+
+# TEST 18 #
+test_dir='/u sers/tors/tars/turs'
+input='users'
+expect=''
+name='whitespace 4 (do not match)'
+tester
+
+# TEST 19 #
+test_dir='/u sers/tors/tars/turs'
+input='rs/t'
+expect='cd /u\ sers/tors/tars/'
+name='whitespace 5 (ambiguous inline slash)'
+tester
+
+# TEST 20 #
+test_dir='/@&*special characters/%?please--dont/makedirectories___likethis/okay'
+input='please'
+expect='cd /@&*special\ characters/%?please--dont/'
+name="special characters"
 tester
 
 if [[ $num_success != $num_tests ]]; then
