@@ -7,9 +7,17 @@ No more typing `cd ../../../../..` repeatedly!
 
 ###Install
 
+#### HomeBrew
+
+```bash
+brew tap lime-green/tap
+brew install bcd
+```
+### Manual
 ```bash
 git clone https://github.com/lime-green/bcd.git
-cd bcd && source ./install.sh
+cd bcd && ./install.sh
+cp back_directory ~/bin
 ```
 
 No sudo privileges needed. 
