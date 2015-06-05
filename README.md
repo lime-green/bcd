@@ -17,7 +17,7 @@ brew install bcd
 ```bash
 git clone https://github.com/lime-green/bcd.git
 cd bcd && ./install.sh
-cp back_directory ~/bin
+cp back_directory.pl ~/bin
 ```
 
 No sudo privileges needed. 
