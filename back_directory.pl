@@ -37,15 +37,6 @@ if (defined $ARGV[0] && $ARGV[0] eq '--complete')
     }
 }
 
-my $arg_c = $#ARGV + 1;
-if ((! $complete) && (($#ARGV != 0 && $#ARGV != 1) || 
-        (defined $ARGV[0] && $ARGV[0] eq '') ||
-        (defined $ARGV[1] && $ARGV[1] eq '')))
-{
-    print STDERR "Invalid number of arguments\n";
-    exit -1;
-}
-
 my $cwd =  defined $ARGV[1] ? $ARGV[1] : `pwd;`;
 chomp $cwd; # pwd attaches a newline
 my $input = $ARGV[0];

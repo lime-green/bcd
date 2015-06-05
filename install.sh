@@ -17,10 +17,10 @@ cat <<'PROFILE' >> "$profile_file"
 
 # BCD install.sh (adding function and alias) #
 bcd() {
-    if [[ $# -ne 1 ]]; then
-        echo "Invalid number of arguments" 1>&2
+    if [[ $# -eq 0 ]]; then
+        eval "cd .."
     else
-        cmd="$(back_directory.pl "$1")"
+        cmd="$(back_directory.pl "$1" 2> /dev/null)"
         if [[ $? -eq 0 ]]; then
             eval "$cmd";
         else
