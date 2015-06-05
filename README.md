@@ -13,7 +13,7 @@ No more typing `cd ../../../../..` repeatedly!
 brew tap lime-green/tap
 brew install bcd
 ```
-### Manual
+#### Manual
 ```bash
 git clone https://github.com/lime-green/bcd.git
 cd bcd && ./install.sh
