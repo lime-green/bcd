@@ -8,23 +8,8 @@ else
     profile_file="$HOME/.profile"
 fi
 
-# check if the current user's bin is in path 
-echo "Checking path..."
-echo "$PATH" | tr ':' '\n' | grep "^$HOME/bin$" >/dev/null 2>&1
-if [[ $? -ne 0 ]]; then
-    echo "~/bin not found in path. Appending path to $profile_file..." 
-    cat <<-PROFILE >> $profile_file
-
-	# BCD install.sh (adding path) #
-	export PATH="\$PATH:$HOME/bin"
-	# END BCD install.sh #
-PROFILE
-fi
-
-# copy file to current user's bin
-echo "Copying file to ~/bin..."
-mkdir -p "$HOME/bin"
-cp back_directory.pl "$HOME/bin"
+grep "BCD install.sh" "$profile_file"  &> /dev/null
+[ $? -eq 0 ] && exit 0
 
 # write function and alias to profile_file
 echo "Writing function and alias to $profile_file"
